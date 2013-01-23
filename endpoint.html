@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <title>Gameover Test App</title>
+
+    <script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
+    <script src="http://testing.tmgames.nl/static/external/gameover.client.js?f71e919f"></script>
+
+    <script>
+        var friends = {};
+
+        function initApp() {
+            GameOver.token(function (token) {console.log(token);});
+
+            // Get user info
+            GameOver.api("/me", function(response) {
+                console.log(response);
+                if (response.user && response.user.displayname) {
+                    $("#user-name").html(response.user.displayname);
+                }
+            });
+
+            // Get list of friends
+            GameOver.api("/me/friends", {limit: 3}, function(response) {
+                console.log(response);
+                if (response.friends) {
+                    if (response.friends.length == 0) {
+                        $("#send-message-empty-option").html("Forever alone: you have no friends");
+                        $("#send-request-empty-option").html("Forever alone: you have no friends");
+                    } else {
+                        $("#send-message-empty-option").html("");
+                        $("#send-request-empty-option").html("");
+                        for (var i = 0; i < response.friends.length; i++) {
+                            $("#send-message-friend-id").append('<option value="' + response.friends[i].id + '">' + response.friends[i].fullname + '</option>');
+                            $("#send-request-friend-id").append('<option value="' + response.friends[i].id + '">' + response.friends[i].fullname + '</option>');
+                        }
+                        $("#send-message-friend-id").attr("disabled", false);
+                        $("#send-message-button").attr("disabled", false);
+
+                        $("#send-request-friend-id").attr("disabled", false);
+                        $("#send-request-button").attr("disabled", false);
+                    }
+                }
+            });
+
+            // Wall post
+            $("#wall-post").click(function() {
+                GameOver.ui({
+                    method: "feed",
+                    message: "These lazy programmer :user_name: decided not to provide a proper message for the post feed of :game_name:."
+                },
+                function(response) {
+                    if (response && response.errorCode == 0) {
+                        alert('Post was published.');
+                    } else {
+                        alert('Post was not published.');
+                    }
+                });
+            });
+
+            // Invite friends
+            $("#friend-invite-button").click(function() {
+                GameOver.ui({
+                    method: "invite"
+                },
+                function(response) {
+                    if (response && response.errorCode == 0) {
+                        alert('Invitation was sent to: ' + response.to.join(', '));
+                    } else {
+                        alert('Invitation was not sent.');
+                    }
+                });
+            });
+
+            // Request
+            $("#send-request-button").click(function() {
+                var friendId = $("#send-request-friend-id").val();
+                var friendIds;
+                if (typeof friendId === 'string') {
+                    friendIds = [ friendId ];
+                } else {
+                    friendIds = friendId;
+                }
+                GameOver.ui({
+                    method: "apprequests",
+                    title: "Test gameover Game",
+                    message: "Some example request here.",
+                    to: friendIds
+                },
+                function(response) {
+                    console.log('RESPONSE: ', response);
+                    if (response && response.errorCode == 0) {
+                        alert('Request ' + response.request + ' was sent to: ' + response.to.join(', '));
+                    } else {
+                        alert('Request was not published.\n' + response.errorCode + ': ' + response.errorMessage);
+                    }
+                });
+            });
+
+            // Send score
+            $("#send-score-button").click(function() {
+                var score = $("#send-score-score").val();
+                GameOver.api("/me/score", "POST", {"score": score}, function(response) {
+                    if (response && response.errorCode == 0) {
+                        alert('Score was published.');
+                    } else {
+                        alert('Score was not published.');
+                    }
+                });
+            });
+
+            // Get score
+            $("#get-score-button").click(function() {
+                GameOver.api("/me/score", "GET", {}, function(response) {
+                    if (response && response.errorCode == 0) {
+                        alert('High score is ' + response.score);
+                    } else {
+                        alert('High score was not retrieved.');
+                    }
+                });
+            });
+
+            // Make a payment
+            $("#payment-button").click(function() {
+                GameOver.ui(
+                    {
+                        method: "payment",
+                        order_info: "a-mock-order-info-string"
+                    },
+                    function(response) {
+                        if (response && response.errorCode == 0) {
+                            alert("Payment completed");
+                        } else {
+                            alert("Payment failed");
+                        }
+                    }
+                );
+            });
+        }
+
+        GameOver.init();
+
+        // Additional initialization code here
+
+        $(initApp);
+</script>
+
+</head>
+<body>
+
+
+<p>Hello <b id="user-name">{{user}}</b>!</p>
+
+<ul>
+    <li>
+        <input type="button" id="wall-post" value="Open post on your wall dialog">
+    <li>
+        <input type="button" id="friend-invite-button" value="Open invite friend dialog">
+    </li>
+    <li>
+        Send a request (optional to):
+        <select id="send-request-friend-id" disabled="disabled" multiple="1">
+            <option value="" id="send-request-empty-option">List of friends is not loaded yet</option>
+        </select>
+        <input type="button" id="send-request-button" value="Send request">
+    </li>
+    <li>
+        Set a score:
+        <input id="send-score-score">
+        <input type="button" id="send-score-button" value="Send score">
+        <br>
+        <input type="button" id="get-score-button" value="Get score">
+    </li>
+    <li>
+        Buy a cow:
+        <input type="button" id="payment-button" value="Pay">
+    </li>
+</ul>
+
+</body>
+</html>

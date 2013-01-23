@@ -1,0 +1,14 @@
+application: example-gameover-game
+version: 1
+runtime: python27
+api_version: 1
+threadsafe: true
+
+handlers:
+- url: /endpoint.html
+  static_files: endpoint.html
+  upload: endpoint.html
+  
+- url: /api/.*
+  script: main.app
+
