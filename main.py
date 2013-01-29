@@ -18,7 +18,7 @@ class MainPage(webapp.RequestHandler):
                          'content': [
                           {'title': 'Title of order',
                            'description': 'Description of order',
-                           'price': '2.00',
+                           'price': '200',
                            'image_url': 'http://aux.iconpedia.net/uploads/1505202069.png'
                            }
                           ]}
