@@ -14,14 +14,22 @@ class MainPage(webapp.RequestHandler):
         data = parse_signed_request(signed_request, 'abcdef')
         logging.warning(data)
         self.response.headers['Content-Type'] = 'application/json'
-        response_data = {'method': 'payments_get_items',
-                         'content': [
-                          {'title': 'Title of order',
-                           'description': 'Description of order',
-                           'price': '200',
-                           'image_url': 'http://aux.iconpedia.net/uploads/1505202069.png'
-                           }
-                          ]}
+        
+        response_data = {'method': 'unknown'}
+        if data['method'] == 'payments_get_items':
+            response_data = {'method': 'payments_get_items',
+                             'content': [
+                              {'title': 'Title of order',
+                               'description': 'Description of order',
+                               'price': '200',
+                               'image_url': 'http://aux.iconpedia.net/uploads/1505202069.png'
+                               }
+                              ]}
+        elif data['method'] == 'payments_status_update':
+            response_data = {'method': 'payments_status_update',
+                             'content': {'order_id': data['order_id'],
+                                         'status': 'settled'}
+                             }
         self.response.out.write(json.dumps(response_data))
 
     def post(self):
