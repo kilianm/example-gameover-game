@@ -30,10 +30,11 @@ class MainPage(webapp.RequestHandler):
                                }
                               ]}
         elif data['method'] == 'payments_status_update':
+            status = 'settled' if data['status'] == 'placed' else 'failed'
             #response for 'payments_status_update'
             response_data = {'method': 'payments_status_update',
                              'content': {'order_id': data['order_id'],
-                                         'status': 'settled'}
+                                         'status': status}
                              }
         self.response.out.write(json.dumps(response_data))
 
