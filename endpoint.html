@@ -4,13 +4,22 @@
 
     <title>Gameover Test App</title>
 
+    <link href="http://twitter.github.com/bootstrap/assets/css/bootstrap.css" rel="stylesheet">
+
     <script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
-    <script src="http://testing.tmgames.nl/static/external/gameover.client.js?f71e919f"></script>
+    <script src="http://tmgames.nl/static/external/gameover.client.js?f71e919f"></script>
+    <script src="http://www.apikooien.nl/tom/games/test/js/jquery.backstretch.min.js"></script>
 
     <script>
+    if (typeof console == "undefined") {
+        window.console = {
+            log: function () {}
+        };
+    }
         var friends = {};
 
         function initApp() {
+            GameOver.init();
             GameOver.token(function (token) {console.log(token);});
 
             // Get user info
@@ -121,12 +130,11 @@
                 });
             });
 
-            // Make a payment
-            $("#payment-button").click(function() {
+            var doPayment = function(order_info) {
                 GameOver.ui(
                     {
                         method: "payment",
-                        order_info: "a-mock-order-info-string"
+                        order_info: order_info
                     },
                     function(response) {
                         if (response && response.errorCode == 0) {
@@ -136,14 +144,21 @@
                         }
                     }
                 );
-            });
+            };
+            
+            // Make a payment
+            $("#payment-button5").click(function() { doPayment('package-5-cents'); });
+            $("#payment-button100").click(function() { doPayment('package-100-cents'); });
+            $("#payment-button250").click(function() { doPayment('package-250-cents'); });
+            $("#payment-button500").click(function() { doPayment('package-500-cents'); });
+            $("#payment-button1000").click(function() { doPayment('package-1000-cents'); });
+            $("#payment-button2500").click(function() { doPayment('package-2500-cents'); });
         }
 
-        GameOver.init();
-
-        // Additional initialization code here
-
-        $(initApp);
+        $(document).ready(function() {
+            $.backstretch("http://adriannerussell.files.wordpress.com/2011/04/professional-development.jpg");
+            initApp();
+        });
 </script>
 
 </head>
@@ -173,8 +188,13 @@
         <input type="button" id="get-score-button" value="Get score">
     </li>
     <li>
-        Buy a cow:
-        <input type="button" id="payment-button" value="Pay">
+        Buy stuff:
+        <input type="button" id="payment-button5" value="Pay &euro; 0.05">
+        <input type="button" id="payment-button100" value="Pay &euro; 1.00">
+        <input type="button" id="payment-button250" value="Pay &euro; 2.50">
+        <input type="button" id="payment-button500" value="Pay &euro; 5.00">
+        <input type="button" id="payment-button1000" value="Pay &euro; 10.00">
+        <input type="button" id="payment-button2500" value="Pay &euro; 25.00">
     </li>
 </ul>
 

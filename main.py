@@ -20,13 +20,27 @@ class MainPage(webapp.RequestHandler):
         #TODO: implement actual storing of the orders. For the sake of example not really required.
         response_data = {'method': 'unknown'}
         if data['method'] == 'payments_get_items':
+            price = 0
+            if data['order_info'] == 'package-5-cents':
+                price = 5
+            if data['order_info'] == 'package-100-cents':
+                price = 100
+            if data['order_info'] == 'package-250-cents':
+                price = 250
+            if data['order_info'] == 'package-500-cents':
+                price = 500
+            if data['order_info'] == 'package-1000-cents':
+                price = 1000
+            if data['order_info'] == 'package-2500-cents':
+                price = 2500
+
             #response for 'payments_get_items'
             response_data = {'method': 'payments_get_items',
                              'content': [
-                              {'title': 'Title of order',
-                               'description': 'Description of order',
-                               'price': '200',
-                               'image_url': 'http://aux.iconpedia.net/uploads/1505202069.png'
+                              {'title': 'Cheap purple cow',
+                               'description': 'Not a normal cow! No this one is purple (and cheap).',
+                               'price': str(price),
+                               'image_url': 'http://www.slopemedia.org/wp-content/uploads/2012/10/1purple_cow.gif'
                                }
                               ]}
         elif data['method'] == 'payments_status_update':
@@ -36,6 +50,7 @@ class MainPage(webapp.RequestHandler):
                              'content': {'order_id': data['order_id'],
                                          'status': status}
                              }
+        logging.warning(json.dumps(response_data))
         self.response.out.write(json.dumps(response_data))
 
     def post(self):
