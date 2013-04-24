@@ -144,7 +144,7 @@
                     }
                 );
             };
-            
+
             // Make a payment
             $("#payment-button5").click(function() { doPayment('package-5-cents'); });
             $("#payment-button100").click(function() { doPayment('package-100-cents'); });
@@ -152,6 +152,10 @@
             $("#payment-button500").click(function() { doPayment('package-500-cents'); });
             $("#payment-button1000").click(function() { doPayment('package-1000-cents'); });
             $("#payment-button2500").click(function() { doPayment('package-2500-cents'); });
+
+            // Simulate failed endpoints
+            $("#payment-orderinfo-failure-button").click(function() { doPayment('package-5-cents-fail-getitems'); });
+            $("#payment-statusupdate-failure-button").click(function() { doPayment('package-5-cents-fail-statusupdate'); });
         }
 
         $(document).ready(function() {
@@ -193,6 +197,13 @@
         <input type="button" id="payment-button500" value="Pay &euro; 5.00">
         <input type="button" id="payment-button1000" value="Pay &euro; 10.00">
         <input type="button" id="payment-button2500" value="Pay &euro; 25.00">
+    </li>
+    <li>
+        API failure simulation:
+        <input type="button" id="payment-getitems-failure-button" value="Pay
+        &euro; 0.05 and see it fail to fetch order info">
+        <input type="button" id="payment-statusupdate-failure-button" value="Pay
+        &euro; 0.05 and see its status update fail">
     </li>
 </ul>
 
