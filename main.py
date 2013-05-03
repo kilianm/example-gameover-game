@@ -30,12 +30,30 @@ class MainPage(webapp.RequestHandler):
                 price = 5
             if data['order_info'] == 'package-100-cents':
                 price = 100
+            if data['order_info'] == 'package-130-cents':
+                price = 130
+            if data['order_info'] == 'package-150-cents':
+                price = 150
             if data['order_info'] == 'package-250-cents':
                 price = 250
+            if data['order_info'] == 'package-300-cents':
+                price = 300
+            if data['order_info'] == 'package-450-cents':
+                price = 450
             if data['order_info'] == 'package-500-cents':
                 price = 500
+            if data['order_info'] == 'package-600-cents':
+                price = 600
+            if data['order_info'] == 'package-900-cents':
+                price = 900
             if data['order_info'] == 'package-1000-cents':
                 price = 1000
+            if data['order_info'] == 'package-1500-cents':
+                price = 1500
+            if data['order_info'] == 'package-1990-cents':
+                price = 1990
+            if data['order_info'] == 'package-1999-cents':
+                price = 1999
             if data['order_info'] == 'package-2500-cents':
                 price = 2500
             if data['order_info'] == 'package-5-cents-fail-getitems':
@@ -101,4 +119,3 @@ def parse_signed_request(signed_request, secret):
 
 #Payment-endpoint for this project: http://example-gameover-game.appspot.com/api/
 app = webapp.WSGIApplication([('/api/', MainPage)], debug=True)
-
