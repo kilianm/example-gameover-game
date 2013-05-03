@@ -148,7 +148,7 @@
             // Make a payment
             $(".payment-btn").click(function() {
 
-                var matches = /(\d+)$/.exec(s)
+                var matches = /(\d+)$/.exec($(this).attr('id'));
                 var amount = matches[1]; // In cents
                 doPayment('package-' + amount + '-cents');
                 return false;
