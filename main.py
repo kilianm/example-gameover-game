@@ -64,8 +64,8 @@ class MainPage(webapp.RequestHandler):
                 price = 1990
             if data['order_info'] == 'package-1999-cents':
                 price = 1999
-            if data['order_info'] == 'package-2500-cents':
-                price = 2500
+            if data['order_info'] == 'package-2000-cents':
+                price = 2000
             if data['order_info'] == 'package-5-cents-fail-getitems':
                 raise Exception("This call is meant to mess the getitems call.")
             if data['order_info'] == 'package-5-cents-fail-statusupdate':
