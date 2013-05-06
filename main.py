@@ -28,24 +28,34 @@ class MainPage(webapp.RequestHandler):
             price = 0
             if data['order_info'] == 'package-5-cents':
                 price = 5
+            if data['order_info'] == 'package-99-cents':
+                price = 99
             if data['order_info'] == 'package-100-cents':
                 price = 100
             if data['order_info'] == 'package-130-cents':
                 price = 130
             if data['order_info'] == 'package-150-cents':
                 price = 150
+            if data['order_info'] == 'package-199-cents':
+                price = 199
+            if data['order_info'] == 'package-200-cents':
+                price = 200
             if data['order_info'] == 'package-250-cents':
                 price = 250
             if data['order_info'] == 'package-300-cents':
                 price = 300
             if data['order_info'] == 'package-450-cents':
                 price = 450
+            if data['order_info'] == 'package-499-cents':
+                price = 499
             if data['order_info'] == 'package-500-cents':
                 price = 500
             if data['order_info'] == 'package-600-cents':
                 price = 600
             if data['order_info'] == 'package-900-cents':
                 price = 900
+            if data['order_info'] == 'package-999-cents':
+                price = 999
             if data['order_info'] == 'package-1000-cents':
                 price = 1000
             if data['order_info'] == 'package-1500-cents':
