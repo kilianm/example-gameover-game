@@ -44,6 +44,8 @@ class MainPage(webapp.RequestHandler):
                 price = 250
             if data['order_info'] == 'package-300-cents':
                 price = 300
+            if data['order_info'] == 'package-400-cents':
+                price = 400
             if data['order_info'] == 'package-450-cents':
                 price = 450
             if data['order_info'] == 'package-499-cents':
@@ -52,6 +54,8 @@ class MainPage(webapp.RequestHandler):
                 price = 500
             if data['order_info'] == 'package-600-cents':
                 price = 600
+            if data['order_info'] == 'package-700-cents':
+                price = 700
             if data['order_info'] == 'package-900-cents':
                 price = 900
             if data['order_info'] == 'package-999-cents':
