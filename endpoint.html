@@ -19,6 +19,7 @@
 
         function initApp() {
             GameOver.init();
+            GameOver.Canvas.setSize();
             GameOver.token(function (token) {console.log(token);});
 
             // Get user info
@@ -66,6 +67,14 @@
                     }
                 });
             });
+            
+            // Wall post
+            $("#wall-post-fail").click(function() {
+                GameOver.ui({
+                    method: "feed",
+                    message: "These lazy programmer :user_name: decided not to provide a proper message for the post feed of :game_name:."
+                }, function(){return false;});
+            });
 
             // Invite friends
             $("#friend-invite-button").click(function() {
@@ -92,8 +101,8 @@
                 }
                 GameOver.ui({
                     method: "apprequests",
-                    title: "Test gameover Game",
-                    message: "Some example request here.",
+                    title: $('#request-title').val(),
+                    message: $('#request-message').val(),
                     to: friendIds
                 },
                 function(response) {
@@ -173,11 +182,17 @@
 <ul>
     <li>
         <input type="button" id="wall-post" value="Open post on your wall dialog">
+    </li>
+    <li>
+        <input type="button" id="wall-post-fail" value="Open post on your wall dialog with wrong callback">
+    </li>
     <li>
         <input type="button" id="friend-invite-button" value="Open invite friend dialog">
     </li>
     <li>
-        Send a request (optional to):
+        <p>Send a request (optional to):</p>
+        <p>Title: <input id="request-title" type="text" value="Test gameover Game"/></p>
+        <p>Message: <input id="request-message" type="text" value="Some example request here."/></p>
         <select id="send-request-friend-id" disabled="disabled" multiple="1">
             <option value="" id="send-request-empty-option">List of friends is not loaded yet</option>
         </select>
